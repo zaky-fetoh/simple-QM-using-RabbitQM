@@ -33,7 +33,7 @@ process.on("exit", clear);
             });
             QforTopic[topic] = q.queue;
             //creating Exchange Point
-            const exch = chunnel.assertExchange("MASSAGES", "topic", {
+            const exch = chunnel.assertExchange("MESSAGES", "topic", {
                 durable: true,
             });
             //creating binding
