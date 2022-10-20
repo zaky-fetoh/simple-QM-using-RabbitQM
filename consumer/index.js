@@ -33,11 +33,12 @@ RABBITMQ_HOST = process.env.RABBITMQ_HOST || "amqp://localhost:5672";
             });
             QforTopic[topic] = q.queue;
             //creating Exchange Point
-            const exch = chunnel.assertExchange("MESSAGES", "topic", {
+            const exch = await chunnel.assertExchange("MESSAGES", "topic", {
                 durable: true,
             });
             //creating binding
-            chunnel.bindQueue(QforTopic[topic], exch, topic);
+            await chunnel.bindQueue(QforTopic[topic],
+                 exch.exchange, topic);
             res.status(200).json({
                 QName: q.queue,
                 ok: true,
@@ -50,10 +51,10 @@ RABBITMQ_HOST = process.env.RABBITMQ_HOST || "amqp://localhost:5672";
                 ok: false,
             });
             const massages = [];
-            let consumer = chunnel.consume(QforTopic[topic], m => {
-                massages.push(JSON.parse(m.toString()))
+            await chunnel.consume(QforTopic[topic], m => {
+                massages.push(JSON.parse(m.content.toString()))
             }, { noAck: true });
-            chunnel.cancel(consumer)
+            // await chunnel.cancel(consumer)
             res.status(200).json({
                 ok: true, massages,
             });

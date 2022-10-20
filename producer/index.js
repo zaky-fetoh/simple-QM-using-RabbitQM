@@ -22,10 +22,10 @@ RABBITMQ_HOST = process.env.RABBITMQ_HOST || "amqp://localhost:5672";
         .post("/sendto/:topic", async (req, res, next) => {
             const data = Buffer.from(JSON.stringify(req.body));
             const topic = req.params.topic;
-            const exch = chunnel.assertExchange("MESSAGES", "topic", {
+            const exch = await chunnel.assertExchange("MESSAGES", "topic", {
                 durable: true,
             });
-            chunnel.publish(exch, topic, data);
+            chunnel.publish(exch.exchange, topic, data);
             res.status(200).json({
                 message: "data sent",
                 ok: true,
