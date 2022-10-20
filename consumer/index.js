@@ -10,6 +10,14 @@ const mqConnc = await amqp.connect(RABBITMQ_HOST);
 const chunnel = await mqConnc.createChannel();
 QforTopic = {};
 
+async function clear(){
+    await mqConnc.close()
+    delete QforTopic
+}
+
+process.on("beforeExit", clear);
+process.on("exit", clear);
+
 (async () => {
     express().use(morgan())
         .use(express.urlencoded()).use(express.json())
@@ -50,7 +58,6 @@ QforTopic = {};
                 ok:true, massages,
             });
         })
-
         .listen(ConsPORT, () => {
             console.log("Consumer Stared")
         })
