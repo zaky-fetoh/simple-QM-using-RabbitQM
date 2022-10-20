@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan")
 const amqp = require("amqplib");
 
-ConsPORT = process.env.PORT || 3002;
+prodPORT = process.env.PORT || 3002;
 RABBITMQ_HOST = process.env.RABBITMQ_HOST || "amqp://localhost:5672";
 
 (async () => {
@@ -30,6 +30,8 @@ RABBITMQ_HOST = process.env.RABBITMQ_HOST || "amqp://localhost:5672";
                 message: "data sent",
                 ok: true,
             })
+        }).listen(prodPORT,()=>{
+            console.log("Producer Started")
         })
 
 })(); 
