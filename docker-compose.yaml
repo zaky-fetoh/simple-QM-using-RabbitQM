@@ -1,0 +1,8 @@
+version: '3'
+services:
+  RabbitQM:
+    container_name: RabbitQM
+    image: rabbitmq3.11.2-management
+    ports:
+      - "5672:5672"
+    restart: always
