@@ -6,7 +6,6 @@ ConsPORT = process.env.PORT || 3001;
 RABBITMQ_HOST = process.env.RABBITMQ_HOST || "amqp://localhost:5672";
 
 
-
 (async () => {
     //setting connectio to the RAbbitMQ
     const mqConnc = await amqp.connect(RABBITMQ_HOST);
